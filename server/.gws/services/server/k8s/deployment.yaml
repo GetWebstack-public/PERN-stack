@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server
+  labels:
+    app: server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: server
+  template:
+    metadata:
+      labels:
+        app: server
+    spec:
+      containers:
+      - name: server
+        image: server
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5000
+          name: http
+          protocol: TCP
+        env:
+        - name: PORT
+          value: "5000"
+        - name: NODE_ENV
+          value: "development"
+        - name: DATABASE_URL
+          value: "postgresql://devuser:devpassword@postgresql:5432/devdb"
+        - name: CLIENT_URL
+          value: "https://client.pern-stack.local.getwebstack.dev"
+      restartPolicy: Always
