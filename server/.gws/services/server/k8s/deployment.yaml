@@ -28,7 +28,7 @@ spec:
         - name: NODE_ENV
           value: "development"
         - name: DATABASE_URL
-          value: "postgresql://devuser:devpassword@postgresql:5432/devdb"
+          value: "postgresql://devuser:devpassword@postgresql:5432/pern_dev"
         - name: CLIENT_URL
           value: "https://client.pern-stack.local.getwebstack.dev"
       restartPolicy: Always

@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgresql
+  labels:
+    app: postgresql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgresql
+  template:
+    metadata:
+      labels:
+        app: postgresql
+    spec:
+      containers:
+      - name: postgresql
+        image: postgres:16-alpine
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5432
+          name: postgres
+          protocol: TCP
+        env:
+        - name: POSTGRES_USER
+          value: "devuser"
+        - name: POSTGRES_PASSWORD
+          value: "devpassword"
+        - name: POSTGRES_DB
+          value: "pern_dev"
+        - name: PGDATA
+          value: "/var/lib/postgresql/data/pgdata"
+      restartPolicy: Always
