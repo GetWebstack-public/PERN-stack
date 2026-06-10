@@ -1,7 +1,6 @@
 # >>> gws >>>
 # gws.json is a transport artifact for `gws config import` — the
 # canonical config lives in the GetWebStack API (run `gws config export`).
-gws.json
 .gws/setup-diagnostic.md
 # <<< gws <<<
 

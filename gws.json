@@ -1,0 +1,60 @@
+{
+  "name": "pern-stack",
+  "version": "1.0.0",
+  "registry": {
+    "mode": "local"
+  },
+  "provision": {
+    "environments": {
+      "dev": {
+        "type": "k3d",
+        "default": true
+      }
+    }
+  },
+  "services": [
+    {
+      "name": "server",
+      "path": "./server",
+      "hosts": ["server.pern-stack.local.getwebstack.dev"],
+      "port": 5000,
+      "fileSync": true,
+      "fileSyncIgnore": [
+        "node_modules/",
+        "dist/",
+        "coverage/",
+        "*.log",
+        "/.git",
+        "/.idea",
+        "/.vscode"
+      ],
+      "dockerfile": ".gws/services/server/Dockerfile",
+      "manifests": ".gws/services/server/k8s"
+    },
+    {
+      "name": "client",
+      "path": "./client",
+      "hosts": ["client.pern-stack.local.getwebstack.dev"],
+      "port": 5173,
+      "fileSync": true,
+      "fileSyncIgnore": [
+        "node_modules/",
+        "dist/",
+        "coverage/",
+        "*.log",
+        "/.git",
+        "/.idea",
+        "/.vscode"
+      ],
+      "dockerfile": ".gws/services/client/Dockerfile",
+      "manifests": ".gws/services/client/k8s"
+    },
+    {
+      "name": "postgresql",
+      "path": "./postgresql",
+      "port": 5432,
+      "fileSync": false,
+      "manifests": ".gws/services/postgresql/k8s"
+    }
+  ]
+}
