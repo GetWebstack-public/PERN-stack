@@ -7,7 +7,11 @@ const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
 
-app.use(cors({ origin: process.env.CLIENT_URL || 'http://localhost:5173', credentials: true }));
+const allowedOrigins = (process.env.CLIENT_URL || 'http://localhost:5173').split(',').map(o => o.trim());
+app.use(cors({
+  origin: (origin, cb) => cb(null, !origin || allowedOrigins.some(o => origin === o || origin.startsWith(o))),
+  credentials: true,
+}));
 app.use(express.json());
 
 app.get('/api/health', (req, res) => res.json({ status: 'ok' }));

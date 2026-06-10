@@ -1,0 +1,4 @@
+# Ephemeral GWS artifacts — do not commit
+setup-diagnostic.md
+state/
+cache/
