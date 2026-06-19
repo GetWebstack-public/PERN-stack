@@ -2,11 +2,24 @@ const { Pool } = require('pg');
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
-const connectDB = async () => {
-  const client = await pool.connect();
-  console.log(`PostgreSQL connected: ${client.database}`);
-  client.release();
-  await initSchema();
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const connectDB = async (retries = 10, delayMs = 2000) => {
+  for (let attempt = 1; ; attempt++) {
+    try {
+      const client = await pool.connect();
+      console.log(`PostgreSQL connected: ${client.database}`);
+      client.release();
+      await initSchema();
+      return;
+    } catch (err) {
+      if (attempt >= retries) throw err;
+      console.warn(
+        `PostgreSQL not ready (attempt ${attempt}/${retries}): ${err.code || err.message}. Retrying in ${delayMs}ms...`
+      );
+      await sleep(delayMs);
+    }
+  }
 };
 
 const initSchema = async () => {
