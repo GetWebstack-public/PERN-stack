@@ -14,7 +14,12 @@ client.interceptors.request.use((config) => {
 client.interceptors.response.use(
   (res) => res,
   (err) => {
-    if (err.response?.status === 401) {
+    // A 401 from the login/register attempts themselves means "bad credentials",
+    // not an expired session — let the page render the error instead of doing a
+    // full-page redirect that would wipe React state (and the error message).
+    const url = err.config?.url || '';
+    const isAuthAttempt = url.includes('/auth/login') || url.includes('/auth/register');
+    if (err.response?.status === 401 && !isAuthAttempt) {
       localStorage.removeItem('token');
       window.location.href = '/login';
     }

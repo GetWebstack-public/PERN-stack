@@ -9,7 +9,9 @@ const app = express();
 
 const allowedOrigins = (process.env.CLIENT_URL || 'http://localhost:5173').split(',').map(o => o.trim());
 app.use(cors({
-  origin: (origin, cb) => cb(null, !origin || allowedOrigins.some(o => origin === o || origin.startsWith(o))),
+  // Exact match only — startsWith would allow attacker hosts like
+  // "http://localhost:5173.evil.com" that merely share a configured prefix.
+  origin: (origin, cb) => cb(null, !origin || allowedOrigins.includes(origin)),
   credentials: true,
 }));
 app.use(express.json());
