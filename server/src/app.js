@@ -11,7 +11,9 @@ const allowedOrigins = (process.env.CLIENT_URL || 'http://localhost:5173').split
 
 const isAllowedOrigin = (origin) => {
   if (!origin) return true; // non-browser clients (curl, server-to-server)
-  if (allowedOrigins.some(o => origin === o || origin.startsWith(o))) return true;
+  // Exact match only — startsWith would allow attacker hosts like
+  // "http://localhost:5173.evil.com" that merely share a configured prefix.
+  if (allowedOrigins.includes(origin)) return true;
   try {
     const { hostname } = new URL(origin);
     // Allow any GetWebStack subdomain (e.g. client.pern.local.getwebstack.dev)

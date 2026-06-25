@@ -90,9 +90,17 @@
 
 .todo-text {
   flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
   font-size: 0.97rem;
   color: var(--text);
   transition: color var(--transition);
+}
+
+/* Keep the delete control in view even with very long titles. */
+.todo-item .btn-danger {
+  flex-shrink: 0;
 }
 .todo-item.completed .todo-text {
   text-decoration: line-through;

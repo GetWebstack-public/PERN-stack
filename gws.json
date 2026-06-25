@@ -4,12 +4,10 @@
   "registry": {
     "mode": "local"
   },
-  "provision": {
-    "environments": {
-      "dev": {
-        "type": "k3d",
-        "default": true
-      }
+  "profiles": {
+    "qa": {
+      "description": "QA runs — static images, no file sync (managed by /gws-qa; edit freely)",
+      "services": [ { "name": "*", "fileSync": false } ]
     }
   },
   "services": [
