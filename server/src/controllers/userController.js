@@ -26,7 +26,18 @@ const getUserById = async (req, res, next) => {
 
 const updateUser = async (req, res, next) => {
   try {
-    const { name, email, role } = req.body;
+    const targetId = Number(req.params.id);
+    const isAdmin = req.user.role === 'admin';
+
+    // A user may only update their own record; admins may update anyone.
+    if (!isAdmin && req.user.id !== targetId) {
+      return res.status(403).json({ message: 'Forbidden' });
+    }
+
+    const { name, email } = req.body;
+    // Only admins may change a role; a client-supplied role is ignored otherwise.
+    const role = isAdmin ? req.body.role : undefined;
+
     const { rows } = await pool.query(
       `UPDATE users SET
         name = COALESCE($1, name),
@@ -35,7 +46,7 @@ const updateUser = async (req, res, next) => {
         updated_at = NOW()
        WHERE id = $4
        RETURNING id, name, email, role, created_at, updated_at`,
-      [name, email, role, req.params.id]
+      [name, email, role, targetId]
     );
     if (!rows[0]) return res.status(404).json({ message: 'User not found' });
     res.json(rows[0]);
