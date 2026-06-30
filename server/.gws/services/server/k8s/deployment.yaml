@@ -31,4 +31,8 @@ spec:
           value: "postgresql://devuser:devpassword@postgresql:5432/pern_dev"
         - name: CLIENT_URL
           value: "https://client.pern-stack.local.getwebstack.dev:9443"
+        - name: JWT_SECRET
+          value: "qa-e2e-jwt-secret-do-not-use-in-prod"
+        - name: JWT_EXPIRES_IN
+          value: "7d"
       restartPolicy: Always

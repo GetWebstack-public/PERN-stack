@@ -2,21 +2,30 @@
   "name": "pern-stack",
   "version": "1.0.0",
   "registry": {
-    "mode": "local"
+    "mode": "in-cluster"
   },
   "profiles": {
     "qa": {
-      "description": "QA runs — static images, no file sync (managed by /gws-qa; edit freely)",
-      "services": [ { "name": "*", "fileSync": false } ]
+      "services": [
+        {
+          "name": "*",
+          "fileSync": false
+        }
+      ],
+      "description": "QA runs — static images, no file sync (managed by /gws-qa; edit freely)"
     }
   },
   "services": [
     {
       "name": "server",
       "path": "./server",
-      "hosts": ["server.pern-stack.local.getwebstack.dev"],
       "port": 5000,
+      "hosts": [
+        "server.pern-stack.local.getwebstack.dev"
+      ],
       "fileSync": true,
+      "manifests": ".gws/services/server/k8s",
+      "dockerfile": ".gws/services/server/Dockerfile",
       "fileSyncIgnore": [
         "node_modules/",
         "dist/",
@@ -25,16 +34,18 @@
         "/.git",
         "/.idea",
         "/.vscode"
-      ],
-      "dockerfile": ".gws/services/server/Dockerfile",
-      "manifests": ".gws/services/server/k8s"
+      ]
     },
     {
       "name": "client",
       "path": "./client",
-      "hosts": ["client.pern-stack.local.getwebstack.dev"],
       "port": 5173,
+      "hosts": [
+        "client.pern-stack.local.getwebstack.dev"
+      ],
       "fileSync": true,
+      "manifests": ".gws/services/client/k8s",
+      "dockerfile": ".gws/services/client/Dockerfile",
       "fileSyncIgnore": [
         "node_modules/",
         "dist/",
@@ -43,9 +54,7 @@
         "/.git",
         "/.idea",
         "/.vscode"
-      ],
-      "dockerfile": ".gws/services/client/Dockerfile",
-      "manifests": ".gws/services/client/k8s"
+      ]
     },
     {
       "name": "postgresql",
