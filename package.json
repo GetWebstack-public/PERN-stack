@@ -12,6 +12,7 @@
     "test:server": "npm --prefix server test"
   },
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "concurrently": "^8.2.2",
+    "momentic": "^3.7.3"
   }
 }

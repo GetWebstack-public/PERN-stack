@@ -1,0 +1,9 @@
+fileType: momentic/test/v2
+id: better-glassy-guppy-drift-deeply
+version: 1.0.24
+url: http://localhost
+description: test login
+defaultEnv: web
+viewport: 1920, 1080
+browserType: Chromium
+steps: []
