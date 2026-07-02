@@ -48,9 +48,20 @@
   ],
   "profiles": {
     "qa": {
-      "description": "QA runs — static images, no file sync (managed by /gws-qa-run; edit freely)",
+      "description": "QA runs — production-like self-contained images that bake in source, no file sync (used by /gws-qa-run).",
       "services": [
-        { "name": "*", "fileSync": false }
+        {
+          "name": "server",
+          "fileSync": false,
+          "dockerfile": "Dockerfile.qa"
+        },
+        {
+          "name": "client",
+          "fileSync": false,
+          "dockerfile": "Dockerfile.qa",
+          "command": ["nginx", "-g", "daemon off;"],
+          "buildArgs": { "VITE_API_URL": "https://server.pern-stack.atlas.getwebstack.dev/api" }
+        }
       ]
     }
   }
