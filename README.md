@@ -72,8 +72,8 @@ https://client.pern-stack.local.getwebstack.dev:9443/?namespace=<your-namespace>
 
 | Service | URL |
 |---|---|
-| Frontend | `https://client.pern-stack.local.getwebstack.dev:9443` |
-| Backend API | `https://server.pern-stack.local.getwebstack.dev:9443/api` |
+| Frontend | `https://client.pern-stack.vlad-nistorica.getwebstack.dev:9443` |
+| Backend API | `https://server.pern-stack.vlad-nistorica.getwebstack.dev:9443/api` |
 
 ### Daily commands
 

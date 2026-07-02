@@ -4,64 +4,54 @@
   "registry": {
     "mode": "in-cluster"
   },
-  "profiles": {
-    "qa": {
-      "services": [
-        {
-          "name": "*",
-          "fileSync": false
-        }
-      ],
-      "description": "QA runs — static images, no file sync (managed by /gws-qa; edit freely)"
-    }
-  },
   "services": [
     {
       "name": "server",
       "path": "./server",
       "port": 5000,
       "hosts": [
-        "server.pern-stack.local.getwebstack.dev"
+        "server.pern-stack.atlas.getwebstack.dev"
       ],
       "fileSync": true,
-      "manifests": ".gws/services/server/k8s",
       "dockerfile": ".gws/services/server/Dockerfile",
-      "fileSyncIgnore": [
-        "node_modules/",
-        "dist/",
-        "coverage/",
-        "*.log",
-        "/.git",
-        "/.idea",
-        "/.vscode"
-      ]
+      "dependsOn": ["postgresql"],
+      "env": {
+        "PORT": "5000",
+        "NODE_ENV": "development",
+        "DATABASE_URL": "postgresql://devuser:devpassword@postgresql:5432/pern_dev",
+        "CLIENT_URL": "https://client.pern-stack.atlas.getwebstack.dev"
+      },
+      "fileSyncIgnore": ["node_modules/", "dist/", "coverage/", "*.log", "/.git", "/.idea", "/.vscode"]
     },
     {
       "name": "client",
       "path": "./client",
       "port": 5173,
       "hosts": [
-        "client.pern-stack.local.getwebstack.dev"
+        "client.pern-stack.atlas.getwebstack.dev"
       ],
       "fileSync": true,
-      "manifests": ".gws/services/client/k8s",
       "dockerfile": ".gws/services/client/Dockerfile",
-      "fileSyncIgnore": [
-        "node_modules/",
-        "dist/",
-        "coverage/",
-        "*.log",
-        "/.git",
-        "/.idea",
-        "/.vscode"
-      ]
+      "command": ["sh", "-c", "until [ -f index.html ]; do sleep 1; done && npm install && npm run dev"],
+      "fileSyncIgnore": ["node_modules/", "dist/", "coverage/", "*.log", "/.git", "/.idea", "/.vscode"]
     },
     {
       "name": "postgresql",
       "path": "./postgresql",
-      "port": 5432,
-      "fileSync": false,
-      "manifests": ".gws/services/postgresql/k8s"
+      "datastore": {
+        "engine": "postgres",
+        "database": "pern_dev",
+        "user": "devuser",
+        "password": "devpassword"
+      }
     }
-  ]
+  ],
+  "profiles": {
+    "qa": {
+      "description": "QA runs — static images, no file sync (managed by /gws-qa-run; edit freely)",
+      "services": [
+        { "name": "*", "fileSync": false }
+      ]
+    }
+  }
 }

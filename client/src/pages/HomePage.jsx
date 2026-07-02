@@ -27,6 +27,7 @@ export default function HomePage() {
             </>
           )}
         </div>
+        <p>test</p>
         <div className="hero-stack">
           {['PostgreSQL', 'Express', 'React', 'Node.js'].map((t) => (
             <span key={t} className="hero-tag">{t}</span>
