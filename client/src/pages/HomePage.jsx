@@ -8,14 +8,14 @@ export default function HomePage() {
   return (
     <div className="hero">
       <div className="hero-content">
-        <div className="hero-badge">PERN Stack Template</div>
+        <div className="hero-badge">PERN Stack Starter Kit</div>
         <h1 className="hero-title">
-          Build faster with<br />
+          Ship faster with<br />
           <span className="hero-title-accent">PostgreSQL, Express,</span><br />
           React &amp; Node
         </h1>
         <p className="hero-subtitle">
-          A production-ready boilerplate with JWT auth, REST API, and a full React frontend — deployed on GWS.
+          A production-ready boilerplate with JWT auth, a REST API, and a complete React frontend — deployed effortlessly on GWS.
         </p>
         <div className="hero-actions">
           {user ? (
